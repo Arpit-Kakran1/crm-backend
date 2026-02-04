@@ -130,93 +130,6 @@ export async function createProperty(req, res, next) {
 
 // PUT /api/properties/:id (admin)
 
-// export async function updateProperty(req, res, next) {
-//   try {
-//     const { id } = req.params
-
-//     // 1️⃣ Validate Mongo ID
-//     if (!mongoose.isValidObjectId(id)) {
-//       return res.status(400).json({
-//         success: false,
-//         message: 'Invalid property id',
-//         data: null,
-//       })
-//     }
-
-//     const {
-//       title,
-//       location,
-//       price,
-//       propertyType,
-//       status,
-//       description,
-//       images,
-//       isFeatured,
-
-//       // property features
-//       area,
-//       bedrooms,
-//       bathrooms,
-//       balconies,
-//       parking,
-//       furnishing,
-//       floorNumber,
-//       totalFloors,
-//       facing,
-//       propertyAge,
-//     } = req.body || {}
-
-//     // 2️⃣ Build updates safely
-//     const updates = {}
-
-//     if (title !== undefined) updates.title = title
-//     if (location !== undefined) updates.location = location
-//     if (price !== undefined) updates.price = price
-//     if (propertyType !== undefined) updates.propertyType = propertyType
-//     if (status !== undefined) updates.status = status
-//     if (description !== undefined) updates.description = description
-//     if (typeof isFeatured === 'boolean') updates.isFeatured = isFeatured
-   
-
-//     // 4️⃣ Feature fields (THIS WAS MISSING)
-//     if (area !== undefined) updates.area = area
-//     if (bedrooms !== undefined) updates.bedrooms = bedrooms
-//     if (bathrooms !== undefined) updates.bathrooms = bathrooms
-//     if (balconies !== undefined) updates.balconies = balconies
-//     if (parking !== undefined) updates.parking = parking
-//     if (furnishing !== undefined) updates.furnishing = furnishing
-//     if (floorNumber !== undefined) updates.floorNumber = floorNumber
-//     if (totalFloors !== undefined) updates.totalFloors = totalFloors
-//     if (facing !== undefined) updates.facing = facing
-//     if (propertyAge !== undefined) updates.propertyAge = propertyAge
-
-//      if (Array.isArray(images) && images.length > 0) {
-//   property.images.push(...images)
-// }
-//     // 5️⃣ Update DB
-//     const property = await Property.findByIdAndUpdate(id, updates, {
-//       new: true,
-//       runValidators: true,
-//     })
-
-//     if (!property) {
-//       return res.status(404).json({
-//         success: false,
-//         message: 'Property not found',
-//         data: null,
-//       })
-//     }
-
-//     // 6️⃣ Success
-//     return res.json({
-//       success: true,
-//       message: 'Property updated',
-//       data: property,
-//     })
-//   } catch (err) {
-//     next(err)
-//   }
-// }
 export async function updateProperty(req, res, next) {
   try {
     const { id } = req.params
@@ -286,7 +199,8 @@ export async function updateProperty(req, res, next) {
     }
 
     // 4️⃣ Save
-    await property.save()
+    await property.save({ validateBeforeSave: true })
+
 
     return res.json({
       success: true,
@@ -297,7 +211,6 @@ export async function updateProperty(req, res, next) {
     next(err)
   }
 }
-
 
 
 /* =========================

@@ -21,4 +21,4 @@ export const uploadImage = (req, res, next) => {
     }
   );
   bufferToStream(req.file.buffer).pipe(stream);
-};
+}; 

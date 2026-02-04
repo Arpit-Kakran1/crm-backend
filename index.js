@@ -11,22 +11,13 @@ import { notFound, errorHandler } from './src/middleware/errorMiddleware.js';
 
 const app = express();
 
-const allowedOrigins = [
-  'http://localhost:5173',
-  'https://crm-frontend-six-alpha.vercel.app',
-];
-
 app.use(
   cors({
-    origin: (origin, callback) => {
-      if (!origin) return callback(null, true);
-      if (allowedOrigins.includes(origin)) return callback(null, true);
-      console.log('CORS blocked:', origin);
-      return callback(null, false);
-    },
-    credentials: true,
+    origin: true,
+    credentials: false, // 🔥 no cookies now
   })
 );
+
 
 
 app.use(express.json());
@@ -34,7 +25,7 @@ app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
 
 app.use('/api/auth', authRouter);
-app.use('api/upload',uploadRouter)
+app.use('/api/upload',uploadRouter)
 app.use('/api/properties', propertyRouter);
 app.use('/api/enquiries', enquiryRouter);
 
