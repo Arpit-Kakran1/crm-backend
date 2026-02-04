@@ -13,7 +13,7 @@ const app = express();
 
 const allowedOrigins = [
   'http://localhost:5173',
-  'https://property-real-state.vercel.app',
+  'https://crm-frontend-six-alpha.vercel.app',
 ];
 
 app.use(
