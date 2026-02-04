@@ -42,11 +42,11 @@ export const loginAdmin = async (req, res, next) => {
     }
     const token = generateToken(user._id);
     res.cookie('accessToken', token, {
-      httpOnly: true,
-      sameSite: 'lax',
-      secure: 'false',
-      maxAge: 24 * 60 * 60 * 1000,
-    });
+  httpOnly: true,
+  secure: true,          
+  sameSite: 'none',      
+  maxAge: 24 * 60 * 60 * 1000,
+});
     const payload = { id: user._id, name: user.name, email: user.email, role: 'Admin' };
     return res.status(200).json({ success: true, message: 'Login successful', user: payload });
   } catch (err) {
