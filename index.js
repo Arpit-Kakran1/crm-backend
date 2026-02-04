@@ -11,22 +11,30 @@ import { notFound, errorHandler } from './src/middleware/errorMiddleware.js';
 
 const app = express();
 
-const allowedOrigin = process.env.FRONTEND_ORIGIN || 'http://localhost:5173';
+const allowedOrigins = [
+  'http://localhost:5173',
+  'https://property-real-state.vercel.app',
+];
+
 app.use(
   cors({
-    origin: allowedOrigin,
+    origin: (origin, callback) => {
+      if (!origin) return callback(null, true);
+      if (allowedOrigins.includes(origin)) return callback(null, true);
+      console.log('CORS blocked:', origin);
+      return callback(null, false);
+    },
     credentials: true,
-    methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH'],
-    allowedHeaders: ['Content-Type', 'Authorization'],
   })
 );
+
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
 
 app.use('/api/auth', authRouter);
-app.use('/api/upload',uploadRouter)
+app.use('api/upload',uploadRouter)
 app.use('/api/properties', propertyRouter);
 app.use('/api/enquiries', enquiryRouter);
 
