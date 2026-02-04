@@ -9,7 +9,7 @@ const enquirySchema = new mongoose.Schema(
     propertyId: {
       type: mongoose.Schema.Types.ObjectId,
       ref: 'Property',
-      required: true,
+      default:'null'
     },
     status: {
       type: String,

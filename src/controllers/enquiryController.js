@@ -53,6 +53,39 @@ async function createEnquiry(req, res, next) {
   }
 }
 
+async function createGeneralEnquiry(req, res, next) {
+  try {
+    const { name, email, phone, message } = req.body || {}
+
+    const required = { name, email, phone }
+    for (const [key, val] of Object.entries(required)) {
+      if (!val) {
+        return res.status(400).json({
+          success: false,
+          message: `${key} is required`,
+          data: null,
+        })
+      }
+    }
+
+    const enquiry = await Enquiry.create({
+      name,
+      email,
+      phone,
+      message,
+      propertyId: null, // explicitly no property
+    })
+
+    return res.status(201).json({
+      success: true,
+      message: 'General enquiry submitted',
+      data: enquiry,
+    })
+  } catch (err) {
+    next(err)
+  }
+}
+
 // GET /api/enquiries (admin)
 async function getEnquiries(req, res, next) {
   try {
@@ -173,5 +206,6 @@ export {
   getEnquiryById,
   updateEnquiry,
   deleteEnquiry,
+  createGeneralEnquiry
 };
 

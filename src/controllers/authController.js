@@ -43,8 +43,8 @@ export const loginAdmin = async (req, res, next) => {
     const token = generateToken(user._id);
     res.cookie('accessToken', token, {
       httpOnly: true,
-      sameSite: 'strict',
-      secure: process.env.NODE_ENV === 'production',
+      sameSite: 'lax',
+      secure: 'false',
       maxAge: 24 * 60 * 60 * 1000,
     });
     const payload = { id: user._id, name: user.name, email: user.email, role: 'Admin' };
